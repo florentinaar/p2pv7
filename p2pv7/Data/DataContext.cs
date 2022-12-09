@@ -12,5 +12,6 @@ namespace p2pv7.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Business> Businesses { get; set; }
         public DbSet<Dimension> Dimensions { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
