@@ -13,5 +13,6 @@ namespace p2pv7.Data
         public DbSet<Business> Businesses { get; set; }
         public DbSet<Dimension> Dimensions { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
     }
 }

@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using p2pv7.Services.AuthService;
+using p2pv7.Services.EmailService;
+using p2pv7.Services.RolesService;
 
 var builder = WebApplication.CreateBuilder(args);
 string connString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -37,6 +39,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IBusinessIntegrationService, BusinessIntegrationService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IRolesService, RolesService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

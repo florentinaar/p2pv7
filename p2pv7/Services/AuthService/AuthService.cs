@@ -1,11 +1,13 @@
 ﻿using Azure;
 using Azure.Core;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using p2pv7.Data;
 using p2pv7.DTOs;
+using p2pv7.Migrations;
 using p2pv7.Models;
 using System.Data;
 using System.Diagnostics.Metrics;
@@ -48,8 +50,8 @@ namespace p2pv7.Services.AuthService
 
             _context.SaveChanges();
             return true;
-
         }
+
         public async Task<ServiceResponse<string>> Login(string email, string password)
         {
             var response = new ServiceResponse<string>();
@@ -78,18 +80,25 @@ namespace p2pv7.Services.AuthService
             return response;
         }
 
-        public bool AssignRole(Guid id, string role)
+        public bool AssignRole(Guid id, Guid roleId)
         {
             var user = _context.Users
                .FirstOrDefault();
+            var role = _context.Roles.Find(roleId);
+            var roleName = role.RoleName;
             if (user == null)
+            {
+                return false;
+            }
+            if (role == null)
             {
                 return false;
             }
             var currentUser = _context.Users.Find(id);
             if (currentUser != null)
             {
-                currentUser.Role = role.ToLower();
+                currentUser.Role = role;
+                currentUser.RoleName = roleName;
             }
             //string token = CreateToken(user);
             _context.SaveChanges();
@@ -112,9 +121,7 @@ namespace p2pv7.Services.AuthService
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {
-                var computedHash =
-                    hmac.ComputeHash(System.Text.Encoding.UTF8
-                    .GetBytes(password));
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
             }
         }
@@ -132,8 +139,7 @@ namespace p2pv7.Services.AuthService
             using (var hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
-                passwordHash = hmac
-                    .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
 
@@ -143,7 +149,7 @@ namespace p2pv7.Services.AuthService
             {
                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.RoleName)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8
@@ -153,7 +159,7 @@ namespace p2pv7.Services.AuthService
 
             var token = new JwtSecurityToken(
                     claims: claims,
-                    expires: DateTime.Now.AddDays(1),
+                    expires: DateTime.Now.AddMonths(12),
                     signingCredentials: creds);
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

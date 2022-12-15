@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using p2pv7.DTOs;
+using p2pv7.Migrations;
 using p2pv7.Models;
 using p2pv7.Services;
 using p2pv7.Services.AuthService;
@@ -22,12 +23,14 @@ namespace p2pv7.Controllers
         {
             _authService = authService;
         }
+
         [HttpPost("register")]
         public ActionResult<List<User>> Register(UserDto request)
         {
             _authService.Register(request);
             return Ok();
         }
+
         [HttpPost("login")]
         public async Task<ActionResult<ServiceResponse<string>>> Login(LoginDto request)
         {
@@ -39,13 +42,16 @@ namespace p2pv7.Controllers
 
             return Ok(response);
         }
-        [HttpPost("AssignRole"), Authorize(Roles ="admin")]
-        public bool Assign(Guid id, string role)
+
+        //[HttpPost("AssignRole"), Authorize(Roles ="admin")]
+        [HttpPost("AssignRole")]
+        public bool Assign(Guid id, Guid roleId)
         {
-            _authService.AssignRole(id,role);
+            _authService.AssignRole(id, roleId);
             return true;
         }
-        [HttpPost("VerifyUser"), Authorize(Roles = "admin")]
+
+        [HttpPost("VerifyUser")]
         public bool VerifyUser(Guid id)
         {
             _authService.VerifyUser(id);
