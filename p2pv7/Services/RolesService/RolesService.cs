@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using p2pv7.Data;
+using p2pv7.DTOs;
 using p2pv7.Models;
 
 namespace p2pv7.Services.RolesService
@@ -13,13 +14,14 @@ namespace p2pv7.Services.RolesService
         }
         public List<Role> GetRoles()
         {
-            return _context.Roles.ToList();
+            return _context.Roles
+                 .Include(w => w.Users)
+                .ToList();
         }
-        public bool AddRole(Role request)
+        public bool AddRole(RoleDto request)
         {
             var role = new Role()
             {
-                RoleId = request.RoleId,
                 RoleName = request.RoleName,
                 Description = request.Description,
             };

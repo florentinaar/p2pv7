@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using p2pv7.DTOs;
 using p2pv7.Models;
 using p2pv7.Services.RolesService;
 
@@ -22,7 +23,7 @@ namespace p2pv7.Controllers
         }
 
         [HttpPost]
-        public ActionResult<List<Role>> AddRole(Role request)
+        public ActionResult<List<Role>> AddRole(RoleDto request)
         {
             _rolesService.AddRole(request);
             return Ok(_rolesService.GetRoles());

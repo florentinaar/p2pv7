@@ -32,10 +32,12 @@ namespace p2pv7.Services.AuthService
 
         public bool Register(UserDto request)
         {
+            //var userexists = UserExists(request.Email);
             if (request == null)
             {
                 return false;
             }
+
             CreatePasswordHash(request.Password, out byte[] PasswordHash, out byte[] PasswordSalt);
 
             var user = new User()
@@ -46,8 +48,6 @@ namespace p2pv7.Services.AuthService
                 PasswordSalt = PasswordSalt,
             };
             _context.Users.Add(user);
-
-
             _context.SaveChanges();
             return true;
         }
@@ -94,13 +94,14 @@ namespace p2pv7.Services.AuthService
             {
                 return false;
             }
+
             var currentUser = _context.Users.Find(id);
             if (currentUser != null)
             {
                 currentUser.Role = role;
                 currentUser.RoleName = roleName;
             }
-            //string token = CreateToken(user);
+
             _context.SaveChanges();
             return true;
         }
@@ -166,6 +167,7 @@ namespace p2pv7.Services.AuthService
 
             return jwt;
         }
+
 
     }
 }

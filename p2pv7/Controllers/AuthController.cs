@@ -9,6 +9,7 @@ using p2pv7.Models;
 using p2pv7.Services;
 using p2pv7.Services.AuthService;
 using p2pv7.Services.BusinessIntegration;
+using p2pv7.Services.UserService;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 
@@ -19,9 +20,11 @@ namespace p2pv7.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        private readonly IUserService _userService;
+        public AuthController(IAuthService authService, IUserService UserService)
         {
             _authService = authService;
+            _userService = UserService;
         }
 
         [HttpPost("register")]
@@ -56,6 +59,12 @@ namespace p2pv7.Controllers
         {
             _authService.VerifyUser(id);
             return true;
+        }
+
+        [HttpGet("getme"), Authorize]
+        public ActionResult<string> getme()
+        {
+            return Ok(_userService.getName());
         }
 
     }

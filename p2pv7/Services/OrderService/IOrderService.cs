@@ -11,7 +11,8 @@ namespace p2pv7.Services.OrderService
         bool PostOrder(OrderDto order);
         bool DeleteOrder(Guid OrderId);
         //void setStatus(Guid orderId, string status, Guid courier);
-        //void assignCourierToOrder(Guid orderId, Guid courierId);
+        void assignCourierToOrder(Guid orderId, Guid courierId);
         string CalculateSize(double length, double width, double height);
+        List<Order> GetCourierOrders();
     }
 }

@@ -4,86 +4,90 @@ using Microsoft.EntityFrameworkCore;
 using p2pv7.Data;
 using p2pv7.DTOs;
 using p2pv7.Models;
+using p2pv7.Services.UserService;
 
 namespace p2pv7.Services.OrderService
 {
-        public class OrderService : IOrderService
+    public class OrderService : IOrderService
+    {
+        private readonly DataContext _context;
+
+        private readonly IMapper _mapper;
+        private readonly IUserService _userService;
+        public OrderService(DataContext context, IMapper mapper, IUserService userService)
         {
-            private readonly DataContext _context;
+            _context = context;
+            _userService = userService;
+            _mapper = mapper;
 
-            private readonly IMapper _mapper;
-            public OrderService(DataContext context, IMapper mapper)
+        }
+
+        public Order GetOrder(Guid id)
+        {
+            var ordersFromDb = _context.Orders
+                .Where(n => n.OrderId == id)
+                .Include(w => w.Products)
+                .FirstOrDefault();
+            var orders = _context.Orders.FindAsync(id);
+            var orderToReturn = _mapper.Map<Order>(ordersFromDb);
+            return orderToReturn;
+        }
+
+        public ActionResult<List<Order>> GetAllOrders()
+        {
+            var orders = _context.Orders.Include(x => x.Products).ToList();
+            return orders;
+        }
+
+        public bool PostOrder(OrderDto order)
+        {
+            if (order == null)
             {
-                _context = context;
-                _mapper = mapper;
-
+                return false;
             }
 
-            public Order GetOrder(Guid id)
+            var bussinesExists = _context.Businesses
+                .Where(x => x.BusinessToken == order.CompanyToken)
+                .FirstOrDefault();
+
+            if (bussinesExists == null)
             {
-                var ordersFromDb = _context.Orders
-                    .Where(n => n.OrderId == id)
-                    .Include(w => w.Products)
-                    .FirstOrDefault();
-                var orders = _context.Orders.FindAsync(id);
-                var orderToReturn = _mapper.Map<Order>(ordersFromDb);
-                return orderToReturn;
+                return false;
             }
 
-            public ActionResult<List<Order>> GetAllOrders()
+            var _order = new Order();
+            _mapper.Map(order, _order);
+            _context.Orders.Add(_order);
+            _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public bool DeleteOrder(Guid OrderId)
+        {
+            var order = _context.Orders.Find(OrderId);
+            if (order == null)
             {
-                var orders = _context.Orders.Include(x => x.Products).ToList();
-                return orders;
+                return false;
             }
-
-            public bool PostOrder(OrderDto order)
+            else if (!OrderExists(order))
             {
-                if (order == null)
-                {
-                    return false;
-                }
-
-                var bussinesExists = _context.Businesses
-                    .Where(x => x.BusinessToken == order.CompanyToken)
-                    .FirstOrDefault();
-
-                if (bussinesExists == null)
-                {
-                    return false;
-                }
-
-                var _order = new Order();
-                _mapper.Map(order, _order);
-                _context.Orders.Add(_order);
-                _context.SaveChangesAsync();
-
+                return false;
+            }
+            else
+            {
+                _context.Orders.Remove(order);
+                _context.SaveChanges();
                 return true;
             }
+        }
 
-            public bool DeleteOrder(Guid OrderId)
-            {
-                var order = _context.Orders.Find(OrderId);
-                if (order == null)
-                {
-                    return false;
-                }
-                else if (!OrderExists(order))
-                {
-                    return false;
-                }
-                else
-                {
-                    _context.Orders.Remove(order);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
+        public bool OrderExists(Order request)
+        {
+            bool alreadyExist = _context.Orders.Any(x => x.OrderId == request.OrderId);
+            return alreadyExist;
+        }
 
-            public bool OrderExists(Order request)
-            {
-                bool alreadyExist = _context.Orders.Any(x => x.OrderId == request.OrderId);
-                return alreadyExist;
-            }
 
         //public void setStatus(Guid orderId, string status, Guid courier)
 
@@ -157,16 +161,29 @@ namespace p2pv7.Services.OrderService
         //}
 
 
-        //public void assignCourierToOrder(Guid orderId, Guid courierId)
-        //{
-        //    var courier = _context.Couriers.Find(courierId);
-        //    var order = _context.Orders.Find(orderId);
-        //    if (order != null && courier != null)
-        //    {
-        //        order.CourierId = courierId;
-        //        _context.SaveChanges();
-        //    }
-        //}
+        public void assignCourierToOrder(Guid orderId, Guid courierId)
+        {
+            var courier = _context.Users.Find(courierId);
+            var order = _context.Orders.Find(orderId);
+            if (order != null && courier != null)
+            {
+                order.CourierId = courierId;
+                _context.SaveChanges();
+            }
+        }
+
+        public List<Order> GetCourierOrders()
+        {
+            var currentUser = _userService.getName();
+            var user = _context.Users
+                .Where(x => x.Email == currentUser)
+                .Select(x => x.UserId).First();
+            var orders = _context.Orders
+                .Where(x => x.CourierId == user)
+                .Include(x => x.Products).ToList();
+            return orders;
+        }
+
         public string CalculateSize(double length, double width, double height)
         {
 
@@ -233,4 +250,4 @@ namespace p2pv7.Services.OrderService
             return ("we do not ship this kind of package, please contact our staff for further details");
         }
     }
-    }
+}

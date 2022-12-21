@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using p2pv7.DTOs;
 using p2pv7.Models;
@@ -49,12 +50,18 @@ namespace p2pv7.Controllers
         //    return Ok();
         //}
 
-        //[HttpPut("assignCourierToOrder")]
-        //public ActionResult<List<Order>> assignCourierToOrder(Guid orderId, Guid courierId)
-        //{
-        //    _orderService.assignCourierToOrder(orderId, courierId);
-        //    return Ok();
-        //}
+        [HttpPut("assignCourierToOrder")]
+        public ActionResult<List<Order>> assignCourierToOrder(Guid orderId, Guid courierId)
+        {
+            _orderService.assignCourierToOrder(orderId, courierId);
+            return Ok();
+        }
+        [HttpGet("GetCourierOrder"), Authorize]
+        public ActionResult<List<Order>> GetCourierOrders()
+        {
+            return Ok(_orderService.GetCourierOrders());
+        }
+
         [HttpGet("CalculateSize")]
         public string CalculateSize(double length, double width, double height)
         {
