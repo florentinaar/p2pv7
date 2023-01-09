@@ -52,32 +52,21 @@ namespace p2pv7.Services.AuthService
             return true;
         }
 
-        public async Task<ServiceResponse<string>> Login(string email, string password)
+        public string SignIn(string email, string password)
         {
-            var response = new ServiceResponse<string>();
-            var user = await _context.Users
-                .FirstOrDefaultAsync(x => x.Email.ToLower()
-                .Equals(email.ToLower()));
+            var user = _context.Users
+               .FirstOrDefault(x => x.Email.ToLower()
+               .Equals(email.ToLower()));
+            var token = _context.Users.Where(x => x.Email == email).Select(t => t.Token).First();
+            var message = token;
 
             if (user == null)
             {
-                response.Success = false;
-                response.Message = "User not found.";
-            }
-            else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-            {
-                response.Success = false;
-                response.Message = "Wrong password.";
+                message = "user not found";
+                return message;
             }
             else
-            {
-                response.IDs = user.UserId;
-                response.Data = user.Username;
-                string token = CreateToken(user);
-                response.Message = token;
-            }
-
-            return response;
+                return message;
         }
 
         public bool AssignRole(Guid id, Guid roleId)

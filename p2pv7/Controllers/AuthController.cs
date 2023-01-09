@@ -34,16 +34,11 @@ namespace p2pv7.Controllers
             return Ok();
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult<ServiceResponse<string>>> Login(LoginDto request)
-        {
-            var response = await _authService.Login(request.Email, request.Password);
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
 
-            return Ok(response);
+        [HttpPost("login")]
+        public string SignIn(string email, string password)
+        {
+            return _authService.SignIn(email, password);
         }
 
         //[HttpPost("AssignRole"), Authorize(Roles ="admin")]
