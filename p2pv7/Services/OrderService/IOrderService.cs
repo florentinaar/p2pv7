@@ -2,7 +2,7 @@
 using p2pv7.DTOs;
 using p2pv7.Models;
 
-namespace p2pv7.Services.OrderService
+namespace p2pv7.Services
 {
     public interface IOrderService
     {
@@ -14,5 +14,7 @@ namespace p2pv7.Services.OrderService
         void assignCourierToOrder(Guid orderId, Guid courierId);
         string CalculateSize(double length, double width, double height);
         List<Order> GetCourierOrders();
+        Order SetStatus(Guid orderId, string status, Guid courier);
+        List<Order> GetAllOrdersToList();
     }
 }

@@ -4,7 +4,7 @@ using MimeKit;
 using p2pv7.DTOs;
 using MailKit.Net.Smtp;
 
-namespace p2pv7.Services.EmailService
+namespace p2pv7.Services
 {
     public class EmailService :IEmailService
     {

@@ -1,7 +1,7 @@
 ﻿using p2pv7.DTOs;
 using p2pv7.Models;
 
-namespace p2pv7.Services.AuthService
+namespace p2pv7.Services
 {
     public interface IAuthService
     {

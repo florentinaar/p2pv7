@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using p2pv7.DTOs;
 using p2pv7.Models;
-using p2pv7.Services.OrderService;
+using p2pv7.Services;
 
 namespace p2pv7.Controllers
 {
@@ -67,6 +67,16 @@ namespace p2pv7.Controllers
         {
             return _orderService.CalculateSize(length, width, height);
 
+        }
+
+        [HttpPost("SetOrderStatus")]
+        public Order SetStatus(Guid? orderId, string status, Guid? courier)
+        {
+            if(orderId !=null && courier != null && !string.IsNullOrEmpty(status))
+            {
+                return _orderService.SetStatus(orderId.Value, status, courier.Value);
+            }
+            return new Order();
         }
     }
 }

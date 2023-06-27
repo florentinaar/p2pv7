@@ -39,6 +39,12 @@ namespace p2pv7.Services.OrderService
             return orders;
         }
 
+        public List<Order> GetAllOrdersToList()
+        {
+            var orders = _context.Orders.Include(x => x.Products).ToList();
+            return orders;
+        }
+
         public bool PostOrder(OrderDto order)
         {
             if (order == null)
@@ -89,47 +95,48 @@ namespace p2pv7.Services.OrderService
         }
 
 
-        //public void setStatus(Guid orderId, string status, Guid courier)
+        public Order SetStatus(Guid orderId, string status, Guid courier)
+        {
+            var order = _context.Orders
+                .Where(n => n.OrderId == orderId)
+                .Include(w => w.Products)
+                .FirstOrDefault();
 
-        //{
-        //    var ordersFromDb = _context.Orders
-        //        .Where(n => n.OrderId == orderId)
-        //        .Include(w => w.Products)
-        //        .FirstOrDefault();
+            if (order != null)
+            {
+                order.Status = status;
+                //if (status == "reject")
+                //{
+                //    _context.Orders.Remove(ordersFromDb);
+                //    _context.SaveChanges();
+                //}
+                //else if (status == "accept")
+                //{
 
-        //    if (ordersFromDb != null)
-        //    {
-        //        ordersFromDb.Status = status;
-        //        if (status == "reject")
-        //        {
-        //            _context.Orders.Remove(ordersFromDb);
-        //            _context.SaveChanges();
-        //        }
-        //        else if (status == "accept")
-        //        {
+                //    foreach (Product product in ordersFromDb.Products)
+                //    {
 
-        //            foreach (Product product in ordersFromDb.Products)
-        //            {
+                //        product.ShelfId = GetAvailableShelf();
+                //        _context.SaveChanges();
 
-        //                product.ShelfId = GetAvailableShelf();
-        //                _context.SaveChanges();
+                //    }
+                //}
+                //else if (status == "transfer")
+                //{
+                //    assignCourierToOrder(orderId, courier);
+                //    foreach (Product product in ordersFromDb.Products)
+                //    {
 
-        //            }
-        //        }
-        //        else if (status == "transfer")
-        //        {
-        //            assignCourierToOrder(orderId, courier);
-        //            foreach (Product product in ordersFromDb.Products)
-        //            {
+                //        RemoveProductFromShelf(product.ProductId);
+                //        _context.SaveChanges();
 
-        //                RemoveProductFromShelf(product.ProductId);
-        //                _context.SaveChanges();
-
-        //            }
-        //        }
-        //        _context.SaveChanges();
-        //    };
-        //}
+                //    }
+                //}
+                _context.SaveChanges();
+                return order;
+            }
+            return new Order();
+        }
 
 
         //public void RemoveProductFromShelf(Guid product)

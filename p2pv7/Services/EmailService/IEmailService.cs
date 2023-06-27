@@ -1,6 +1,6 @@
 ﻿using p2pv7.DTOs;
 
-namespace p2pv7.Services.EmailService
+namespace p2pv7.Services
 {
     public interface IEmailService
     {

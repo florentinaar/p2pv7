@@ -16,7 +16,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
-namespace p2pv7.Services.AuthService
+namespace p2pv7.Services
 {
     public class AuthService : IAuthService
     {

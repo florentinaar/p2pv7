@@ -5,7 +5,7 @@ using p2pv7.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace p2pv7.Services.BusinessIntegration
+namespace p2pv7.Services
 {
     public class BusinessIntegrationService :IBusinessIntegrationService
     {
