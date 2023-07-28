@@ -7,9 +7,6 @@ using p2pv7.DTOs;
 using p2pv7.Migrations;
 using p2pv7.Models;
 using p2pv7.Services;
-using p2pv7.Services.AuthService;
-using p2pv7.Services.BusinessIntegration;
-using p2pv7.Services.UserService;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 

@@ -16,5 +16,8 @@ namespace p2pv7.Services
         List<Order> GetCourierOrders();
         Order SetStatus(Guid orderId, string status, Guid courier);
         List<Order> GetAllOrdersToList();
+        List<Order> OrderFilterByPrice(double price);
+        List<Order> OrderFiterByAddress(string address);
+        List<Order> OrderFiterByDate(DateTime date);
     }
 }

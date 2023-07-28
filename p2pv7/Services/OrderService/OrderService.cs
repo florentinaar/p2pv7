@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using p2pv7.Data;
 using p2pv7.DTOs;
 using p2pv7.Models;
-using p2pv7.Services.UserService;
 
 namespace p2pv7.Services.OrderService
 {
@@ -40,10 +39,15 @@ namespace p2pv7.Services.OrderService
         }
 
         public List<Order> GetAllOrdersToList()
-        {
-            var orders = _context.Orders.Include(x => x.Products).ToList();
-            return orders;
-        }
+            => _context.Orders.Include(x => x.Products).ToList();
+
+        public List<Order> OrderFilterByPrice(double price)
+          => _context.Orders.Include(x => x.Products).Where(m => m.Price == price).ToList();
+
+        public List<Order> OrderFiterByAddress(string address)
+           => _context.Orders.Include(x => x.Products).Where(m => m.Address == address).ToList();   
+        public List<Order> OrderFiterByDate(DateTime date)
+           => _context.Orders.Include(x => x.Products).Where(m => m.Date == date).ToList();
 
         public bool PostOrder(OrderDto order)
         {
@@ -89,10 +93,7 @@ namespace p2pv7.Services.OrderService
         }
 
         public bool OrderExists(Order request)
-        {
-            bool alreadyExist = _context.Orders.Any(x => x.OrderId == request.OrderId);
-            return alreadyExist;
-        }
+            =>  _context.Orders.Any(x => x.OrderId == request.OrderId);
 
 
         public Order SetStatus(Guid orderId, string status, Guid courier)
@@ -242,18 +243,13 @@ namespace p2pv7.Services.OrderService
 
 
             if (height < SmallPackageHeight && width < SmallPackageWidth && length < SmallPackageLength)
-            {
                 return ("this is a small package");
-            }
 
             else if (height > SmallPackageHeight && height < MediumPackageHeight && width > SmallPackageWidth && width < MediumPackageWidth && length > SmallPackageLength && length < MediumPackageLength)
-            {
                 return ("this is a medium package");
-            }
             else if (length > MediumPackageLength && length < LargePackageLength && width > MediumPackageWidth && width < LargePackageWidth && height > MediumPackageHeight && height < LargePackageHeight)
-            {
                 return ("this is a large package");
-            }
+
             return ("we do not ship this kind of package, please contact our staff for further details");
         }
     }

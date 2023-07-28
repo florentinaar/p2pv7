@@ -1,4 +1,4 @@
-﻿namespace p2pv7.Services.UserService
+﻿namespace p2pv7.Services
 {
     public interface IUserService
     {

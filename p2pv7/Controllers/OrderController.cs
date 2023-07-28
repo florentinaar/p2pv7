@@ -30,6 +30,24 @@ namespace p2pv7.Controllers
             return Ok(_orderService.GetAllOrders());
         }
 
+        [HttpGet("GetOrdersByPrice")]
+        public ActionResult<List<Order>> GetOrdersByPrice(double price)
+        {
+            return Ok(_orderService.OrderFilterByPrice(price));
+        }
+
+        [HttpGet("GetOrdersByAddress")]
+        public ActionResult<List<Order>> GetOrdersByAdress(string address)
+        {
+            return Ok(_orderService.OrderFiterByAddress(address));
+        }
+
+        [HttpGet("GetOrdersByDate")]
+        public ActionResult<List<Order>> GetOrdersByDate(DateTime date)
+        {
+            return Ok(_orderService.OrderFiterByDate(date));
+        }
+
         [HttpGet("GetOrderById")]
         public Order GetOrder(Guid id)
         {

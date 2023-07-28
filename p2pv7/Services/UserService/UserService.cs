@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace p2pv7.Services.UserService
+namespace p2pv7.Services
 {
     public class UserService : IUserService
     {

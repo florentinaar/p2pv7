@@ -10,7 +10,6 @@ using Swashbuckle.AspNetCore.Filters;
 using p2pv7.Services;
 using p2pv7.Services.RolesService;
 using System.Text.Json.Serialization;
-using p2pv7.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 string connString = builder.Configuration.GetConnectionString("DefaultConnection");

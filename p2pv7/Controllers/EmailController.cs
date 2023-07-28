@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using p2pv7.DTOs;
-using p2pv7.Services.EmailService;
+using p2pv7.Services;
 
 namespace p2pv7.Controllers
 {
