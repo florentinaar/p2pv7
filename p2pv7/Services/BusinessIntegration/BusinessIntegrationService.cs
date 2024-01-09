@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace p2pv7.Services
 {
-    public class BusinessIntegrationService :IBusinessIntegrationService
+    public class BusinessIntegrationService : IBusinessIntegrationService
     {
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
@@ -17,15 +17,16 @@ namespace p2pv7.Services
             _configuration = configuration;
         }
 
-        public List<Business> getAllBusinesses()
-        {
-            return _context.Businesses.ToList();
+        public List<Business> GetAllBusinesses()
+            => _context.Businesses.ToList();
 
-        }
-        public Business getBussinesByToken(string token)
+        public Business GetBussinesByToken(string token)
         {
-            var business = _context.Businesses.Where(x => x.BusinessToken == token).First();
-            return business;
+            Business business = new Business();
+
+            business = _context.Businesses.Where(x => x.BusinessToken == token).FirstOrDefault();
+
+            return business ?? new Business();
         }
 
         public bool SaveBusiness(BusinessDto request)
@@ -52,9 +53,11 @@ namespace p2pv7.Services
 
             _context.Businesses.Add(business);
             _context.SaveChangesAsync();
-            return true;
 
+            return true;
         }
+
+        #region PrivateUtils
         private string CreateToken(Business business)
         {
             List<Claim> claims = new List<Claim>
@@ -65,14 +68,17 @@ namespace p2pv7.Services
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: credentials
                 );
+
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
         }
+        #endregion
     }
 }

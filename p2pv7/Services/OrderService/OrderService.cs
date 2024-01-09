@@ -10,62 +10,57 @@ namespace p2pv7.Services.OrderService
     public class OrderService : IOrderService
     {
         private readonly DataContext _context;
-
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+
         public OrderService(DataContext context, IMapper mapper, IUserService userService)
         {
             _context = context;
             _userService = userService;
             _mapper = mapper;
-
         }
 
         public Order GetOrder(Guid id)
         {
-            var ordersFromDb = _context.Orders
-                .Where(n => n.OrderId == id)
+            var ordersFromDb = _context.Orders.Where(n => n.OrderId == id)
                 .Include(w => w.Products)
                 .FirstOrDefault();
-            var orders = _context.Orders.FindAsync(id);
-            var orderToReturn = _mapper.Map<Order>(ordersFromDb);
-            return orderToReturn;
+
+            return ordersFromDb ?? new Order();
         }
 
         public ActionResult<List<Order>> GetAllOrders()
         {
             var orders = _context.Orders.Include(x => x.Products).ToList();
+
             return orders;
         }
 
         public List<Order> GetAllOrdersToList()
-            => _context.Orders.Include(x => x.Products).ToList();
+           => _context.Orders.Include(x => x.Products).ToList();
 
         public List<Order> OrderFilterByPrice(double price)
-          => _context.Orders.Include(x => x.Products).Where(m => m.Price == price).ToList();
+           => _context.Orders.Include(x => x.Products).Where(m => m.Price == price).ToList();
 
         public List<Order> OrderFiterByAddress(string address)
-           => _context.Orders.Include(x => x.Products).Where(m => m.Address == address).ToList();   
+           => _context.Orders.Include(x => x.Products).Where(m => m.Address == address).ToList();
         public List<Order> OrderFiterByDate(DateTime date)
            => _context.Orders.Include(x => x.Products).Where(m => m.Date == date).ToList();
 
         public bool PostOrder(OrderDto order)
         {
             if (order == null)
-            {
                 return false;
-            }
 
             var bussinesExists = _context.Businesses
                 .Where(x => x.BusinessToken == order.CompanyToken)
                 .FirstOrDefault();
 
             if (bussinesExists == null)
-            {
                 return false;
-            }
 
             var _order = new Order();
+
             _mapper.Map(order, _order);
             _context.Orders.Add(_order);
             _context.SaveChangesAsync();
@@ -88,13 +83,10 @@ namespace p2pv7.Services.OrderService
             {
                 _context.Orders.Remove(order);
                 _context.SaveChanges();
+
                 return true;
             }
         }
-
-        public bool OrderExists(Order request)
-            =>  _context.Orders.Any(x => x.OrderId == request.OrderId);
-
 
         public Order SetStatus(Guid orderId, string status, Guid courier)
         {
@@ -106,11 +98,11 @@ namespace p2pv7.Services.OrderService
             if (order != null)
             {
                 order.Status = status;
-                //if (status == "reject")
-                //{
-                //    _context.Orders.Remove(ordersFromDb);
-                //    _context.SaveChanges();
-                //}
+                if (status == "reject")
+                {
+                    _context.Orders.Remove(order);
+                    _context.SaveChanges();
+                }
                 //else if (status == "accept")
                 //{
 
@@ -173,6 +165,7 @@ namespace p2pv7.Services.OrderService
         {
             var courier = _context.Users.Find(courierId);
             var order = _context.Orders.Find(orderId);
+
             if (order != null && courier != null)
             {
                 order.CourierId = courierId;
@@ -182,69 +175,59 @@ namespace p2pv7.Services.OrderService
 
         public List<Order> GetCourierOrders()
         {
-            var currentUser = _userService.getName();
+            var currentUser = _userService.GetName();
+
             var user = _context.Users
                 .Where(x => x.Email == currentUser)
                 .Select(x => x.UserId).First();
+
             var orders = _context.Orders
                 .Where(x => x.CourierId == user)
                 .Include(x => x.Products).ToList();
+
             return orders;
         }
 
         public string CalculateSize(double length, double width, double height)
         {
 
-            var SPWidth = from d in _context.Dimensions
-                          where d.name == "SmallPackage"
-                          select d.width;
-            var SmallPackageWidth = SPWidth.FirstOrDefault();
+            var SmallPackageWidth = (from d in _context.Dimensions
+                                     where d.Name == "SmallPackage"
+                                     select d.Width).FirstOrDefault();
 
-            var SPHeight = from d in _context.Dimensions
-                           where d.name == "SmallPackage"
-                           select d.height;
-            var SmallPackageHeight = SPHeight.FirstOrDefault();
+            var SmallPackageHeight = (from d in _context.Dimensions
+                                      where d.Name == "SmallPackage"
+                                      select d.Height).FirstOrDefault();
 
-            var SPLength = from d in _context.Dimensions
-                           where d.name == "SmallPackage"
-                           select d.length;
-            var SmallPackageLength = SPLength.FirstOrDefault();
+            var SmallPackageLength = (from d in _context.Dimensions
+                                      where d.Name == "SmallPackage"
+                                      select d.Length).FirstOrDefault();
 
-            var MPHeight = from d in _context.Dimensions
-                           where d.name == "MediumPackage"
-                           select d.height;
-            var MediumPackageHeight = MPHeight.FirstOrDefault();
+            var MediumPackageHeight = (from d in _context.Dimensions
+                                       where d.Name == "MediumPackage"
+                                       select d.Height).FirstOrDefault();
 
+            var MediumPackageWidth = (from d in _context.Dimensions
+                                      where d.Name == "MediumPackage"
+                                      select d.Width).FirstOrDefault();
 
-            var MPWidth = from d in _context.Dimensions
-                          where d.name == "MediumPackage"
-                          select d.width;
-            var MediumPackageWidth = MPWidth.FirstOrDefault();
+            var MediumPackageLength = (from d in _context.Dimensions
+                                       where d.Name == "MediumPackage"
+                                       select d.Length).FirstOrDefault();
 
-            var MPLength = from d in _context.Dimensions
-                           where d.name == "MediumPackage"
-                           select d.length;
-            var MediumPackageLength = MPLength.FirstOrDefault();
+            var LargePackageLength = (from d in _context.Dimensions
+                                      where d.Name == "LargePackage"
+                                      select d.Length).FirstOrDefault();
 
-            var LPLength = from d in _context.Dimensions
-                           where d.name == "LargePackage"
-                           select d.length;
-            var LargePackageLength = LPLength.FirstOrDefault();
+            var LargePackageWidth = (from d in _context.Dimensions
+                                     where d.Name == "LargePackage"
+                                     select d.Width).FirstOrDefault();
 
-            var LPwidth = from d in _context.Dimensions
-                          where d.name == "LargePackage"
-                          select d.width;
-            var LargePackageWidth = LPwidth.FirstOrDefault();
-
-            var LPHeight = from d in _context.Dimensions
-                           where d.name == "LargePackage"
-                           select d.height;
-            var LargePackageHeight = LPHeight.FirstOrDefault();
+            var LargePackageHeight = (from d in _context.Dimensions where d.Name == "LargePackage" select d.Height).FirstOrDefault();
 
 
             if (height < SmallPackageHeight && width < SmallPackageWidth && length < SmallPackageLength)
                 return ("this is a small package");
-
             else if (height > SmallPackageHeight && height < MediumPackageHeight && width > SmallPackageWidth && width < MediumPackageWidth && length > SmallPackageLength && length < MediumPackageLength)
                 return ("this is a medium package");
             else if (length > MediumPackageLength && length < LargePackageLength && width > MediumPackageWidth && width < LargePackageWidth && height > MediumPackageHeight && height < LargePackageHeight)
@@ -252,5 +235,11 @@ namespace p2pv7.Services.OrderService
 
             return ("we do not ship this kind of package, please contact our staff for further details");
         }
+
+        #region PrivateUtils
+        private bool OrderExists(Order request)
+            => _context.Orders.Any(x => x.OrderId == request.OrderId);
+
+        #endregion
     }
 }

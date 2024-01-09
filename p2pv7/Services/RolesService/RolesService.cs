@@ -14,9 +14,7 @@ namespace p2pv7.Services.RolesService
         }
         public List<Role> GetRoles()
         {
-            return _context.Roles
-                 .Include(w => w.Users)
-                .ToList();
+            return _context.Roles.Include(w => w.Users).ToList();
         }
         public bool AddRole(RoleDto request)
         {
@@ -25,14 +23,11 @@ namespace p2pv7.Services.RolesService
                 RoleName = request.RoleName,
                 Description = request.Description,
             };
+
             if (role == null)
-            {
                 return false;
-            }
             else if (RoleExists(role))
-            {
                 return false;
-            }
             else
             {
                 _context.Roles.Add(role);
@@ -44,13 +39,9 @@ namespace p2pv7.Services.RolesService
         {
             var role = _context.Roles.Find(request.RoleId);
             if (role == null)
-            {
                 return false;
-            }
             else if (!RoleExists(role))
-            {
                 return false;
-            }
             else
             {
                 role.RoleName = request.RoleName;

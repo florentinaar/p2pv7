@@ -18,6 +18,7 @@ namespace p2pv7.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
+
         public AuthController(IAuthService authService, IUserService UserService)
         {
             _authService = authService;
@@ -25,39 +26,25 @@ namespace p2pv7.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult<List<User>> Register(UserDto request)
-        {
-            _authService.Register(request);
-            return Ok();
-        }
-
+        public bool Register(UserDto request)
+            => _authService.Register(request);
 
         [HttpPost("login")]
         public string SignIn(string email, string password)
-        {
-            return _authService.SignIn(email, password);
-        }
+            => _authService.SignIn(email, password);
 
         //[HttpPost("AssignRole"), Authorize(Roles ="admin")]
         [HttpPost("AssignRole")]
         public bool Assign(Guid id, Guid roleId)
-        {
-            _authService.AssignRole(id, roleId);
-            return true;
-        }
+           => _authService.AssignRole(id, roleId);
 
         [HttpPost("VerifyUser")]
         public bool VerifyUser(Guid id)
-        {
-            _authService.VerifyUser(id);
-            return true;
-        }
+           =>  _authService.VerifyUser(id);
 
         [HttpGet("getme"), Authorize]
-        public ActionResult<string> getme()
-        {
-            return Ok(_userService.getName());
-        }
+        public ActionResult<string> getMe()
+            => Ok(_userService.GetName());
 
     }
 }

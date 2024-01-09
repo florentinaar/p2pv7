@@ -22,9 +22,8 @@ namespace p2pv7.Controllers
         public async Task<ActionResult<IEnumerable<Dimension>>> GetDimensions()
         {
             if (_context.Dimensions == null)
-            {
                 return NotFound();
-            }
+
             return await _context.Dimensions.ToListAsync();
         }
 
@@ -32,15 +31,12 @@ namespace p2pv7.Controllers
         public async Task<ActionResult<Dimension>> GetDimension(Guid id)
         {
             if (_context.Dimensions == null)
-            {
                 return NotFound();
-            }
+
             var dimension = await _context.Dimensions.FindAsync(id);
 
             if (dimension == null)
-            {
                 return NotFound();
-            }
 
             return dimension;
         }
@@ -49,9 +45,7 @@ namespace p2pv7.Controllers
         public async Task<IActionResult> PutDimension(Guid id, Dimension dimension)
         {
             if (id != dimension.Id)
-            {
                 return BadRequest();
-            }
 
             _context.Entry(dimension).State = EntityState.Modified;
 
@@ -62,13 +56,9 @@ namespace p2pv7.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!DimensionExists(id))
-                {
                     return NotFound();
-                }
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
@@ -79,10 +69,10 @@ namespace p2pv7.Controllers
         public async Task<ActionResult<Dimension>> PostDimension(Dimension dimension)
         {
             if (_context.Dimensions == null)
-            {
                 return Problem("Entity set 'DataContext.Dimensions'  is null.");
-            }
+
             _context.Dimensions.Add(dimension);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetDimension", new { id = dimension.Id }, dimension);
@@ -92,14 +82,12 @@ namespace p2pv7.Controllers
         public async Task<IActionResult> DeleteDimension(Guid id)
         {
             if (_context.Dimensions == null)
-            {
                 return NotFound();
-            }
+
             var dimension = await _context.Dimensions.FindAsync(id);
+
             if (dimension == null)
-            {
                 return NotFound();
-            }
 
             _context.Dimensions.Remove(dimension);
             await _context.SaveChangesAsync();
@@ -108,9 +96,7 @@ namespace p2pv7.Controllers
         }
 
         private bool DimensionExists(Guid id)
-        {
-            return (_context.Dimensions?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+            => (_context.Dimensions?.Any(e => e.Id == id)).GetValueOrDefault();
 
 
     }

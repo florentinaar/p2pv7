@@ -18,9 +18,7 @@ namespace p2pv7.Controllers
 
         [HttpGet]
         public ActionResult<List<Role>> Get()
-        {
-            return Ok(_rolesService.GetRoles());
-        }
+            => Ok(_rolesService.GetRoles());
 
         [HttpPost]
         public ActionResult<List<Role>> AddRole(RoleDto request)

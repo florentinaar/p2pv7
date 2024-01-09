@@ -18,41 +18,28 @@ namespace p2pv7.Controllers
         }
 
         [HttpPost("PostOrder")]
-        public ActionResult<List<Order>> PostOrder(OrderDto order)
-        {
-            _orderService.PostOrder(order);
-            return Ok();
-        }
+        public bool PostOrder(OrderDto order)
+           => _orderService.PostOrder(order);
 
         [HttpGet("GetAllOrders")]
         public ActionResult<List<Order>> GetAllOrders()
-        {
-            return Ok(_orderService.GetAllOrders());
-        }
+            => Ok(_orderService.GetAllOrders());
 
         [HttpGet("GetOrdersByPrice")]
         public ActionResult<List<Order>> GetOrdersByPrice(double price)
-        {
-            return Ok(_orderService.OrderFilterByPrice(price));
-        }
+            => Ok(_orderService.OrderFilterByPrice(price));
 
         [HttpGet("GetOrdersByAddress")]
         public ActionResult<List<Order>> GetOrdersByAdress(string address)
-        {
-            return Ok(_orderService.OrderFiterByAddress(address));
-        }
+            => Ok(_orderService.OrderFiterByAddress(address));
 
         [HttpGet("GetOrdersByDate")]
         public ActionResult<List<Order>> GetOrdersByDate(DateTime date)
-        {
-            return Ok(_orderService.OrderFiterByDate(date));
-        }
+            => Ok(_orderService.OrderFiterByDate(date));
 
         [HttpGet("GetOrderById")]
         public Order GetOrder(Guid id)
-        {
-            return _orderService.GetOrder(id);
-        }
+            => _orderService.GetOrder(id);
 
         [HttpDelete]
         public ActionResult<List<Order>> DeleteOrder(Guid OrderId)
@@ -61,31 +48,20 @@ namespace p2pv7.Controllers
             return Ok(_orderService.GetAllOrders());
         }
 
-        //[HttpPut("UpdateStatusOfOrder")]
-        //public ActionResult<List<Order>> setStatus(StatusOrderDto order, Guid courier)
-        //{
-        //    _orderService.setStatus(order.OrderId, order.Status, courier);
-        //    return Ok();
-        //}
-
         [HttpPut("assignCourierToOrder")]
-        public ActionResult<List<Order>> assignCourierToOrder(Guid orderId, Guid courierId)
+        public ActionResult<List<Order>> AssignCourierToOrder(Guid orderId, Guid courierId)
         {
             _orderService.assignCourierToOrder(orderId, courierId);
             return Ok();
         }
+
         [HttpGet("GetCourierOrder"), Authorize]
         public ActionResult<List<Order>> GetCourierOrders()
-        {
-            return Ok(_orderService.GetCourierOrders());
-        }
+            => _orderService.GetCourierOrders();
 
         [HttpGet("CalculateSize")]
         public string CalculateSize(double length, double width, double height)
-        {
-            return _orderService.CalculateSize(length, width, height);
-
-        }
+            => _orderService.CalculateSize(length, width, height);
 
         [HttpPost("SetOrderStatus")]
         public Order SetStatus(Guid? orderId, string status, Guid? courier)
@@ -94,6 +70,7 @@ namespace p2pv7.Controllers
             {
                 return _orderService.SetStatus(orderId.Value, status, courier.Value);
             }
+
             return new Order();
         }
     }

@@ -41,6 +41,7 @@ namespace p2pv7.Services
                 document.Close();
 
                 writer.Close();
+
                 var constant = ms.ToArray();
                 return constant;
             }

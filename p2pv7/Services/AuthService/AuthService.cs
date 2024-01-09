@@ -29,11 +29,11 @@ namespace p2pv7.Services
             _configuration = configuration;
         }
 
-
         public bool Register(UserDto request)
         {
-            //var userexists = UserExists(request.Email);
-            if (request == null)
+            var userExists = UserExists(request.Email).Result;
+
+            if (request == null || userExists)
             {
                 return false;
             }
@@ -47,8 +47,10 @@ namespace p2pv7.Services
                 PasswordHash = PasswordHash,
                 PasswordSalt = PasswordSalt,
             };
+
             _context.Users.Add(user);
             _context.SaveChanges();
+
             return true;
         }
 
@@ -57,56 +59,63 @@ namespace p2pv7.Services
             var user = _context.Users
                .FirstOrDefault(x => x.Email.ToLower()
                .Equals(email.ToLower()));
-            var token = _context.Users.Where(x => x.Email == email).Select(t => t.Token).First();
-            var message = token;
 
             if (user == null)
             {
-                message = "user not found";
+                var message = "user not found";
                 return message;
             }
-            else
-                return message;
+
+            var token = _context.Users.Where(x => x.Email == email)
+                .Select(t => t.Token)
+                .First() ?? "";
+
+            return token; 
         }
 
         public bool AssignRole(Guid id, Guid roleId)
         {
-            var user = _context.Users
-               .FirstOrDefault();
+            var user = _context.Users.Find(id);
             var role = _context.Roles.Find(roleId);
-            var roleName = role.RoleName;
-            if (user == null)
-            {
-                return false;
-            }
-            if (role == null)
-            {
-                return false;
-            }
 
-            var currentUser = _context.Users.Find(id);
-            if (currentUser != null)
-            {
-                currentUser.Role = role;
-                currentUser.RoleName = roleName;
-            }
+            if (user == null || role == null)
+                return false;
+
+            var roleName = role.RoleName;
+
+            user.Role = role;
+            user.RoleName = roleName;
 
             _context.SaveChanges();
+
             return true;
         }
+
         public bool VerifyUser(Guid id)
         {
             var user = _context.Users.Find(id);
+
             if (user == null)
-            {
                 return false;
-            }
+
             user.Token = CreateToken(user);
             user.VerifiedAt = DateTime.Now;
+
             _context.SaveChanges();
+
             return true;
 
         }
+     
+
+        #region PrivateUtils
+        private async Task<bool> UserExists(string email)
+        {
+
+            return await _context.Users.AnyAsync(user => user.Email.ToLower()
+             .Equals(email.ToLower()));
+        }
+
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
@@ -114,14 +123,6 @@ namespace p2pv7.Services
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
             }
-        }
-
-        public async Task<bool> UserExists(string email)
-        {
-
-            return await _context.Users.AnyAsync(user => user.Email.ToLower()
-             .Equals(email.ToLower()));
-
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -157,6 +158,6 @@ namespace p2pv7.Services
             return jwt;
         }
 
-
+        #endregion
     }
 }

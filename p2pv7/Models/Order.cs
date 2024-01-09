@@ -20,5 +20,7 @@ namespace p2pv7.Models
         public string CompanyToken { get; set; }
         public int Phone { get; set; }
         public string Email { get; set; }
+        public Guid LastStatusSetBy { get; set; }
+        public Guid LastEditedBy { get; set; }
     }
 }

@@ -18,21 +18,15 @@ namespace p2pv7.Controllers
         }
 
         [HttpPost("SaveBusiness")]
-        public async Task<ActionResult<string>> SaveBusiness(BusinessDto request)
-        {
-            _businessIntegration.SaveBusiness(request);
-            return Ok();
-        }
+        public bool SaveBusiness(BusinessDto request)
+           => _businessIntegration.SaveBusiness(request);
+
         [HttpGet("GetAllBusinesses")]
         public List<Business> getAllBusinesses()
-        {
-            //_businessIntegration.getAllBusinesses();
-            return _businessIntegration.getAllBusinesses();
-        }
+            => _businessIntegration.GetAllBusinesses();
+
         [HttpGet("GetBussinesByToken")]
         public Business getBussinesByToken(string token)
-        {
-            return _businessIntegration.getBussinesByToken( token);
-        }
+            => _businessIntegration.GetBussinesByToken(token);
     }
 }

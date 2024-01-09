@@ -8,13 +8,15 @@ namespace p2pv7.Services
         public UserService(IHttpContextAccessor httpContextAccessor) {
             _httpContextAccessor = httpContextAccessor;
         }
-        public string getName()
+        public string GetName()
         {
             var user = string.Empty;
+
             if (_httpContextAccessor !=null)
             {
                 user = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
             }
+
             return user;
         }
     }
