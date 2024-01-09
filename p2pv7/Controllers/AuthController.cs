@@ -42,9 +42,17 @@ namespace p2pv7.Controllers
         public bool VerifyUser(Guid id)
            =>  _authService.VerifyUser(id);
 
-        [HttpGet("getme"), Authorize]
-        public ActionResult<string> getMe()
+        [HttpGet("GetMe"), Authorize]
+        public ActionResult<string> GetMe()
             => Ok(_userService.GetName());
+
+        [HttpGet("ActiveUsersCSV")]
+        public ActionResult CreateCsv()
+        {
+            var stream = _userService.ActiveUsers();
+
+            return File(stream, "text/csv", "ActiveUsersList.csv");
+        }
 
     }
 }
