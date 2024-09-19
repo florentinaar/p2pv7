@@ -52,9 +52,11 @@ namespace p2pv7.Migrations
 
             modelBuilder.Entity("p2pv7.Models.Dimension", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<double>("Height")
                         .HasColumnType("float");

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using p2pv7.DTOs;
 using p2pv7.Models;
@@ -73,5 +72,48 @@ namespace p2pv7.Controllers
 
             return new Order();
         }
+
+        [HttpGet("mandants")]
+        public MandantsListTree Mandants()
+        {
+            return new MandantsListTree()
+            {
+                Key = "t",
+                Id = "t",
+                Label = "t",
+                Mandant = new Mandant()
+                {
+                    mandantAbrechNr = "1",
+                    mandantShortText = "1",
+                    MandantId = "t",
+                    MandantNr = "1",
+                    MandantType = MandantType.vlg,
+                },
+                Children = { }
+            };
+        }
+    }
+
+    public class MandantsListTree
+    {
+        public string Id { get; set; }
+        public  Mandant Mandant { get; set; }
+        public string Key { get; set; }
+        public string Label { get; set; }
+        public MandantsListTree Children { get; set; }
+    }
+
+    public class Mandant
+    {
+        public string MandantId { get; set; }
+        public string MandantNr { get; set; }
+        public MandantType MandantType { get; set; }
+        public string mandantShortText { get; set; }
+        public string mandantAbrechNr { get; set; }
+    }
+
+    public enum MandantType
+    {
+        vlg = 0
     }
 }

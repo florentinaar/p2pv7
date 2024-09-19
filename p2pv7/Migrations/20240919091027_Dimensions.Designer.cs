@@ -12,8 +12,8 @@ using p2pv7.Data;
 namespace p2pv7.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221208132758_dimension")]
-    partial class dimension
+    [Migration("20240919091027_Dimensions")]
+    partial class Dimensions
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,24 +55,26 @@ namespace p2pv7.Migrations
 
             modelBuilder.Entity("p2pv7.Models.Dimension", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<double>("height")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Height")
                         .HasColumnType("float");
 
-                    b.Property<bool>("inUse")
+                    b.Property<bool>("InUse")
                         .HasColumnType("bit");
 
-                    b.Property<double>("length")
+                    b.Property<double>("Length")
                         .HasColumnType("float");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("width")
+                    b.Property<double>("Width")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -106,6 +108,12 @@ namespace p2pv7.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("LastEditedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LastStatusSetBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("ManagerId")
                         .HasColumnType("uniqueidentifier");
@@ -171,6 +179,70 @@ namespace p2pv7.Migrations
                     b.ToTable("Product");
                 });
 
+            modelBuilder.Entity("p2pv7.Models.Role", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("p2pv7.Models.User", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("VerifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("p2pv7.Models.Product", b =>
                 {
                     b.HasOne("p2pv7.Models.Order", null)
@@ -178,9 +250,23 @@ namespace p2pv7.Migrations
                         .HasForeignKey("OrderId");
                 });
 
+            modelBuilder.Entity("p2pv7.Models.User", b =>
+                {
+                    b.HasOne("p2pv7.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("p2pv7.Models.Order", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("p2pv7.Models.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -54,25 +54,35 @@ namespace p2pv7.Services
             return true;
         }
 
-        public string SignIn(string email, string password)
+        public async Task<ServiceResponse<LoginResponseDto>>SignInAsync(string email, string password)
         {
-            var user = _context.Users
-               .FirstOrDefault(x => x.Email.ToLower()
+            var user = await _context.Users
+               .FirstOrDefaultAsync(x => x.Email.ToLower()
                .Equals(email.ToLower()));
 
             if (user == null)
             {
-                var message = "user not found";
-                return message;
+                return new ServiceResponse<LoginResponseDto>
+                {
+                    Message = "user not found",
+                    Success = false
+                };
             }
 
             var token = _context.Users.Where(x => x.Email == email)
                 .Select(t => t.Token)
                 .First() ?? "";
 
-            return token; 
+            return new ServiceResponse<LoginResponseDto>
+            {
+                Token = token,
+                Data = new LoginResponseDto
+                {
+                    Username = user.Username
+                }
+            };
         }
-
+           
         public bool AssignRole(Guid id, Guid roleId)
         {
             var user = _context.Users.Find(id);

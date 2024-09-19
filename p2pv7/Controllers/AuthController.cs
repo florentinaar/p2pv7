@@ -30,8 +30,8 @@ namespace p2pv7.Controllers
             => _authService.Register(request);
 
         [HttpPost("login")]
-        public string SignIn(string email, string password)
-            => _authService.SignIn(email, password);
+        public async Task<ServiceResponse<LoginResponseDto>> SignIn([FromBody] LoginRequestDto request)
+            => await _authService.SignInAsync(request.Email, request.Password);
 
         //[HttpPost("AssignRole"), Authorize(Roles ="admin")]
         [HttpPost("AssignRole")]

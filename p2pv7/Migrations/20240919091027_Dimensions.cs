@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace p2pv7.Migrations
 {
     /// <inheritdoc />
-    public partial class dimension : Migration
+    public partial class Dimensions : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,12 +14,13 @@ namespace p2pv7.Migrations
                 name: "Dimensions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    width = table.Column<double>(type: "float", nullable: false),
-                    height = table.Column<double>(type: "float", nullable: false),
-                    length = table.Column<double>(type: "float", nullable: false),
-                    inUse = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Width = table.Column<double>(type: "float", nullable: false),
+                    Height = table.Column<double>(type: "float", nullable: false),
+                    Length = table.Column<double>(type: "float", nullable: false),
+                    InUse = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

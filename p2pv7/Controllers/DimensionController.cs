@@ -28,7 +28,7 @@ namespace p2pv7.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Dimension>> GetDimension(Guid id)
+        public async Task<ActionResult<Dimension>> GetDimension(int id)
         {
             if (_context.Dimensions == null)
                 return NotFound();
@@ -42,7 +42,7 @@ namespace p2pv7.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDimension(Guid id, Dimension dimension)
+        public async Task<IActionResult> PutDimension(int id, Dimension dimension)
         {
             if (id != dimension.Id)
                 return BadRequest();
@@ -95,7 +95,7 @@ namespace p2pv7.Controllers
             return NoContent();
         }
 
-        private bool DimensionExists(Guid id)
+        private bool DimensionExists(int id)
             => (_context.Dimensions?.Any(e => e.Id == id)).GetValueOrDefault();
 
 
