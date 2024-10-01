@@ -79,7 +79,7 @@ namespace p2pv7.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDimension(Guid id)
+        public async Task<IActionResult> DeleteDimension(int id)
         {
             if (_context.Dimensions == null)
                 return NotFound();
