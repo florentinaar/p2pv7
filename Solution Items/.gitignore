@@ -365,3 +365,6 @@ FodyWeavers.xsd
 #Others
 .vs/
 obj/
+obj
+**/bin/
+**/obj/

@@ -8,11 +8,11 @@ namespace p2pv7.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BusinessIntegrationController : ControllerBase
+    public class BusinessIntegrationsController : ControllerBase
     {
         private readonly IBusinessIntegrationService _businessIntegration;
 
-        public BusinessIntegrationController(IBusinessIntegrationService businessIntegrationService)
+        public BusinessIntegrationsController(IBusinessIntegrationService businessIntegrationService)
         {
             _businessIntegration = businessIntegrationService;
         }

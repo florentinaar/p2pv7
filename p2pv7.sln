@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p2pv7.Data", "src\p2pv7.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p2pv7.Services", "src\p2pv7.Services\p2pv7.Services.csproj", "{8C2457F5-86E8-4F4A-9192-2B85A4CF4873}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p2pv7.Api.Tests", "p2pv7.Api.Tests\p2pv7.Api.Tests.csproj", "{D9962071-8902-474F-BA4F-0D41F21F5D1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{8C2457F5-86E8-4F4A-9192-2B85A4CF4873}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C2457F5-86E8-4F4A-9192-2B85A4CF4873}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C2457F5-86E8-4F4A-9192-2B85A4CF4873}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9962071-8902-474F-BA4F-0D41F21F5D1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9962071-8902-474F-BA4F-0D41F21F5D1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9962071-8902-474F-BA4F-0D41F21F5D1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9962071-8902-474F-BA4F-0D41F21F5D1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{514B591C-E5FE-4B96-B170-B1BDEB2857D2} = {29B1EEE0-D30E-4846-8CB9-8980B0BAB5E5}
 		{1E447FBB-D848-4A4F-BF77-0EA0A70B0287} = {29B1EEE0-D30E-4846-8CB9-8980B0BAB5E5}
 		{8C2457F5-86E8-4F4A-9192-2B85A4CF4873} = {29B1EEE0-D30E-4846-8CB9-8980B0BAB5E5}
+		{D9962071-8902-474F-BA4F-0D41F21F5D1A} = {A9047AA6-DF7E-4597-9045-BBA96E6F40E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCD91F53-43E0-46C6-BECE-F753CCCB4BBB}

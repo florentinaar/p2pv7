@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("p2pv7.Common")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+28daa34a56b56f9c05e66ad9fc4aa5b1f107bf33")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+abd45da3232e7bf77649f2f12bc7ae1ea760d095")]
 [assembly: System.Reflection.AssemblyProductAttribute("p2pv7.Common")]
 [assembly: System.Reflection.AssemblyTitleAttribute("p2pv7.Common")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
