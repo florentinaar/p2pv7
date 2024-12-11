@@ -3,7 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p2pv7", "p2pv7\p2pv7.csproj", "{09012CA3-757E-4ADD-9EA1-EE49827C8E22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p2pv7", "src\p2pv7\p2pv7.csproj", "{C32B9D7B-DAFB-481E-ACC1-C849049A6B4A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F62EA940-9EFA-41E8-B889-30DB5B086E86}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\.gitignore = Solution Items\.gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{29B1EEE0-D30E-4846-8CB9-8980B0BAB5E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A9047AA6-DF7E-4597-9045-BBA96E6F40E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p2pv7.Common", "src\p2pv7.Common\p2pv7.Common.csproj", "{514B591C-E5FE-4B96-B170-B1BDEB2857D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p2pv7.Data", "src\p2pv7.Data\p2pv7.Data.csproj", "{1E447FBB-D848-4A4F-BF77-0EA0A70B0287}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p2pv7.Services", "src\p2pv7.Services\p2pv7.Services.csproj", "{8C2457F5-86E8-4F4A-9192-2B85A4CF4873}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +26,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{09012CA3-757E-4ADD-9EA1-EE49827C8E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{09012CA3-757E-4ADD-9EA1-EE49827C8E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{09012CA3-757E-4ADD-9EA1-EE49827C8E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{09012CA3-757E-4ADD-9EA1-EE49827C8E22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C32B9D7B-DAFB-481E-ACC1-C849049A6B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C32B9D7B-DAFB-481E-ACC1-C849049A6B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C32B9D7B-DAFB-481E-ACC1-C849049A6B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C32B9D7B-DAFB-481E-ACC1-C849049A6B4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{514B591C-E5FE-4B96-B170-B1BDEB2857D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{514B591C-E5FE-4B96-B170-B1BDEB2857D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{514B591C-E5FE-4B96-B170-B1BDEB2857D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{514B591C-E5FE-4B96-B170-B1BDEB2857D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E447FBB-D848-4A4F-BF77-0EA0A70B0287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E447FBB-D848-4A4F-BF77-0EA0A70B0287}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E447FBB-D848-4A4F-BF77-0EA0A70B0287}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E447FBB-D848-4A4F-BF77-0EA0A70B0287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C2457F5-86E8-4F4A-9192-2B85A4CF4873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C2457F5-86E8-4F4A-9192-2B85A4CF4873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C2457F5-86E8-4F4A-9192-2B85A4CF4873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C2457F5-86E8-4F4A-9192-2B85A4CF4873}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C32B9D7B-DAFB-481E-ACC1-C849049A6B4A} = {29B1EEE0-D30E-4846-8CB9-8980B0BAB5E5}
+		{514B591C-E5FE-4B96-B170-B1BDEB2857D2} = {29B1EEE0-D30E-4846-8CB9-8980B0BAB5E5}
+		{1E447FBB-D848-4A4F-BF77-0EA0A70B0287} = {29B1EEE0-D30E-4846-8CB9-8980B0BAB5E5}
+		{8C2457F5-86E8-4F4A-9192-2B85A4CF4873} = {29B1EEE0-D30E-4846-8CB9-8980B0BAB5E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCD91F53-43E0-46C6-BECE-F753CCCB4BBB}

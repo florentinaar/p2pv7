@@ -1,0 +1,13 @@
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\bin\Debug\net7.0\p2pv7.Data.deps.json
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\bin\Debug\net7.0\p2pv7.Data.dll
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\bin\Debug\net7.0\p2pv7.Data.pdb
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\obj\Debug\net7.0\p2pv7.Data.csproj.AssemblyReference.cache
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\obj\Debug\net7.0\p2pv7.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\obj\Debug\net7.0\p2pv7.Data.AssemblyInfoInputs.cache
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\obj\Debug\net7.0\p2pv7.Data.AssemblyInfo.cs
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\obj\Debug\net7.0\p2pv7.Data.csproj.CoreCompileInputs.cache
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\obj\Debug\net7.0\p2pv7.Data.sourcelink.json
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\obj\Debug\net7.0\p2pv7.Data.dll
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\obj\Debug\net7.0\refint\p2pv7.Data.dll
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\obj\Debug\net7.0\p2pv7.Data.pdb
+C:\Users\florentina reshani\Documents\Excercises\p2pv7\src\p2pv7.Data\obj\Debug\net7.0\ref\p2pv7.Data.dll
