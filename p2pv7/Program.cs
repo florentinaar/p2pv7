@@ -1,19 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using p2pv7.Data;
-using p2pv7.Mappings;
-using AutoMapper;
 using p2pv7.Services.OrderService;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using p2pv7.Services;
 using p2pv7.Services.RolesService;
 using System.Text.Json.Serialization;
+using p2pv7.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
-string connString = builder.Configuration.GetConnectionString("DefaultConnection");
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
@@ -31,6 +26,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -56,19 +53,9 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey =
-                new SymmetricSecurityKey(System.Text.Encoding.UTF8
-                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
+builder.Services.AddAuthentication();
+builder.Services.ConfigureJWT(builder.Configuration);
+builder.Services.ConfigureIdentity();
 
 
 builder.Services.AddControllers().AddJsonOptions(x =>

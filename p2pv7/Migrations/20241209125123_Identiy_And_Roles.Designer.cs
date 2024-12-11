@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using p2pv7.Data;
 
@@ -11,9 +12,11 @@ using p2pv7.Data;
 namespace p2pv7.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241209125123_Identiy_And_Roles")]
+    partial class IdentiyAndRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace p2pv7.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "17931be8-0e73-482f-bbcf-7d797ffe1523",
+                            Id = "5a9f483f-5db4-4b50-94cb-a81e75b156fb",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "6ebc14ef-bd7a-49d3-90cb-170796d969c2",
+                            Id = "28c47b83-1dd0-42ce-8b01-3b702776ea8a",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
