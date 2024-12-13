@@ -14,6 +14,7 @@ The P2Pv7 project is a B2B Postal management system multi-layered application bu
 - Email Service Integration
 - Data Mappings
 - Printing Services
+  * Identity for autherization, providing jwt tokens. Cors enabled. Swagger UI for documentation. Entity framework, AutoMapper DTOs
 # Key Components
 
 ### 1. P2Pv7.Common
